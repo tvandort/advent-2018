@@ -1,3 +1,6 @@
 import axios from 'axios';
 
-axios.get('');
+const get = async () =>
+  await axios.get('https://adventofcode.com/2018/day/1/input');
+
+console.log(get());

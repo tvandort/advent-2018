@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "jest --watch",
-    "run": "ts-node src/1.ts",
+    "start": "ts-node src/index.ts",
     "prebuild": "prettier ./src/** --write",
     "build": "tsc"
   }
