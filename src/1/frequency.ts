@@ -5,7 +5,7 @@ const readFile = promisify(fs.readFile);
 
 const INITIAL_FREQUENCY = 0;
 
-export default async (file: string) => {
+export const sumFrequencies = async (file: string) => {
   const data = await readFile(file, 'utf8');
   const lines = data.split('\n');
   const withoutEmpty = lines.filter(line => Boolean(line));

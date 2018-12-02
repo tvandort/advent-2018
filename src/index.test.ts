@@ -3,7 +3,7 @@ import * as frequency from './1/frequency';
 
 let frequencyDefaultSpy: jest.SpyInstance<(file: string) => Promise<number>>;
 beforeAll(() => {
-  frequencyDefaultSpy = jest.spyOn(frequency, 'default');
+  frequencyDefaultSpy = jest.spyOn(frequency, 'sumFrequencies');
   jest.spyOn(console, 'log');
 });
 
@@ -25,7 +25,9 @@ describe('index', () => {
   });
 
   it('will call frequency default', () => {
-    expect(frequency.default).toBeCalledWith(join(__dirname, './1/input.txt'));
+    expect(frequency.sumFrequencies).toBeCalledWith(
+      join(__dirname, './1/input.txt')
+    );
     // tslint:disable-next-line:no-console
     expect(console.log).toBeCalledWith('Total frequency: ', 101);
   });
