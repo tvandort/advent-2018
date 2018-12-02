@@ -1,7 +1,7 @@
 import { join } from 'path';
 import frequency from '../frequency';
 
-describe('day one', () => {
+describe('frequency', () => {
   test.each([
     ['zero.txt', 0],
     ['one.txt', 1],
