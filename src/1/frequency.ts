@@ -15,12 +15,12 @@ interface IFrequencyAnalyzer {
 class FrequencyAnalyzer implements IFrequencyAnalyzer {
   private currentFrequency: number;
   private repeatedFrequency: number | null;
-  private frequencyCount: { [key: string]: number };
+  private frequencySet: Set<number>;
 
   constructor() {
     this.currentFrequency = INITIAL_FREQUENCY;
     this.repeatedFrequency = null;
-    this.frequencyCount = { [this.currentFrequency]: 1 };
+    this.frequencySet = new Set([INITIAL_FREQUENCY]);
   }
 
   get CurrentFrequency() {
@@ -33,18 +33,13 @@ class FrequencyAnalyzer implements IFrequencyAnalyzer {
 
   public Next = (frequency: number) => {
     this.currentFrequency += frequency;
-    if (this.frequencyCount[this.currentFrequency]) {
-      this.frequencyCount[this.currentFrequency] += 1;
-    } else {
-      this.frequencyCount[this.currentFrequency] = 1;
+    if (this.HasRepeatedFrequency()) {
+      return;
     }
-    if (this.HasRepeatedFrequency() === false) {
-      for (const key of Object.keys(this.frequencyCount)) {
-        if (this.frequencyCount[key] > 1) {
-          this.repeatedFrequency = parseInt(key, 10);
-          return;
-        }
-      }
+    if (this.frequencySet.has(this.currentFrequency)) {
+      this.repeatedFrequency = this.currentFrequency;
+    } else {
+      this.frequencySet.add(this.currentFrequency);
     }
   };
 
