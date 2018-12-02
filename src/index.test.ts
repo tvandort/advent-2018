@@ -1,14 +1,15 @@
 import { join } from 'path';
 import * as frequency from './1/frequency';
 
-let frequencyDefaultSpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let sumFrequenciesSpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let repeatedFrequencySpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let consoleLogSpy: jest.SpyInstance<
+  (message?: any, ...optionalParams: any[]) => void
+>;
 beforeAll(() => {
-  frequencyDefaultSpy = jest.spyOn(frequency, 'sumFrequencies');
-  jest.spyOn(console, 'log');
-});
-
-beforeEach(() => {
-  jest.resetAllMocks();
+  sumFrequenciesSpy = jest.spyOn(frequency, 'sumFrequencies');
+  repeatedFrequencySpy = jest.spyOn(frequency, 'repeatedFrequency');
+  consoleLogSpy = jest.spyOn(console, 'log');
 });
 
 afterAll(() => {
@@ -16,19 +17,27 @@ afterAll(() => {
 });
 
 describe('index', () => {
-  beforeEach(async done => {
-    frequencyDefaultSpy.mockImplementation(async () => {
-      done();
+  beforeEach(() => {
+    sumFrequenciesSpy.mockImplementation(async () => {
       return 101;
     });
+    repeatedFrequencySpy.mockImplementation(async () => {
+      return 102;
+    });
+    // tslint:disable-next-line:no-empty
+    consoleLogSpy.mockImplementation(async () => {});
     require('./index');
   });
 
-  it('will call frequency default', () => {
+  it('will call frequency sum frequency', () => {
     expect(frequency.sumFrequencies).toBeCalledWith(
       join(__dirname, './1/input.txt')
     );
-    // tslint:disable-next-line:no-console
-    expect(console.log).toBeCalledWith('Total frequency: ', 101);
+  });
+
+  it('will call first repeated frequency', () => {
+    expect(frequency.repeatedFrequency).toBeCalledWith(
+      join(__dirname, './1/input.txt')
+    );
   });
 });

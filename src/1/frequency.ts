@@ -51,7 +51,7 @@ class FrequencyAnalyzer implements IFrequencyAnalyzer {
   public HasRepeatedFrequency = () => this.repeatedFrequency !== null;
 }
 
-export const repeatedFrequency = async (file: string): Promise<number> => {
+export const repeatedFrequency = async (file: string) => {
   const data = await readFile(file, 'utf8');
   const lines = data.split('\n');
   const withoutempty = lines.filter(line => Boolean(line));
