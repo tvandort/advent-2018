@@ -9,10 +9,10 @@ interface IFrequencyAnalyzer {
   readonly CurrentFrequency: number;
   Next: (frequency: number) => void;
   HasRepeatedFrequency: () => boolean;
-  readonly RepeatedFrequency: number | null;
+  readonly FirstRepeatedFrequency: number | null;
 }
 
-class FrequencyAnalyzer implements IFrequencyAnalyzer {
+export class FrequencyAnalyzer implements IFrequencyAnalyzer {
   private currentFrequency: number;
   private repeatedFrequency: number | null;
   private frequencySet: Set<number>;
@@ -27,7 +27,7 @@ class FrequencyAnalyzer implements IFrequencyAnalyzer {
     return this.currentFrequency;
   }
 
-  get RepeatedFrequency() {
+  get FirstRepeatedFrequency() {
     return this.repeatedFrequency;
   }
 
@@ -57,7 +57,7 @@ export const repeatedFrequency = async (file: string) => {
     analyzer.Next(values[index % values.length]);
     index++;
   }
-  return analyzer.RepeatedFrequency as number;
+  return analyzer.FirstRepeatedFrequency as number;
 };
 
 export const sumFrequencies = async (file: string) => {

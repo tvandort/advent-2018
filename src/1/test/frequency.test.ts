@@ -1,5 +1,9 @@
 import { join } from 'path';
-import { repeatedFrequency, sumFrequencies } from '../frequency';
+import {
+  FrequencyAnalyzer,
+  repeatedFrequency,
+  sumFrequencies
+} from '../frequency';
 
 describe('frequency', () => {
   describe(sumFrequencies, () => {
@@ -32,6 +36,20 @@ describe('frequency', () => {
     it('reads ten-twice.txt and detected repeated ten', async () => {
       const result = await repeatedFrequency(join(__dirname, 'ten-twice.txt'));
       expect(result).toBe(10);
+    });
+  });
+
+  describe(FrequencyAnalyzer, () => {
+    it('repeated frequency does not change with new repeats', () => {
+      const analyzer = new FrequencyAnalyzer();
+      analyzer.Next(1);
+      analyzer.Next(-1);
+      expect(analyzer.HasRepeatedFrequency()).toBe(true);
+      expect(analyzer.FirstRepeatedFrequency).toBe(0);
+      analyzer.Next(2);
+      analyzer.Next(-2);
+      analyzer.Next(2);
+      expect(analyzer.FirstRepeatedFrequency).toBe(0);
     });
   });
 });
