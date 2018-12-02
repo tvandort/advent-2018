@@ -5,7 +5,8 @@
   "author": "tvand <tvandort1@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "es6-promise": "^4.2.5"
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
@@ -18,6 +19,7 @@
   },
   "scripts": {
     "test": "jest --watch",
+    "test:debug": "ts-node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
     "start": "ts-node src/index.ts",
     "prebuild": "prettier ./src/** --write",
     "build": "tsc"
