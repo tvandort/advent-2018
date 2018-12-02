@@ -23,15 +23,15 @@ describe('frequency', () => {
 
   describe(repeatedFrequency, () => {
     it('read repeated-zero.txt and detected repeated zero', async () => {
-      expect(
-        await repeatedFrequency(join(__dirname, 'repeated-zero.txt'))
-      ).toBe(0);
+      const result = await repeatedFrequency(
+        join(__dirname, 'repeated-zero.txt')
+      );
+      expect(result).toBe(0);
     });
 
     it('reads ten-twice.txt and detected repeated ten', async () => {
-      expect(await repeatedFrequency(join(__dirname, 'ten-twice.txt'))).toBe(
-        10
-      );
+      const result = await repeatedFrequency(join(__dirname, 'ten-twice.txt'));
+      expect(result).toBe(10);
     });
   });
 });
