@@ -23,11 +23,11 @@
   },
   "scripts": {
     "test": "jest --watch",
-    "test:debug": "ts-node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "test:debug": "node --inspect-brk -r ts-node/register ./node_modules/jest/bin/jest.js --runInBand --watch",
     "start": "ts-node src/index.ts",
     "prettier:all": "prettier ./src/** --write",
     "tslint:all": "tslint src/**/*.ts",
-    "prebuild": "yarn tslint && yarn prettier:all",
+    "prebuild": "yarn tslint:all && yarn prettier:all",
     "build": "tsc"
   },
   "husky": {
@@ -41,7 +41,7 @@
         "yarn tslint --fix",
         "git add"
       ],
-      "*.{ts,json,js,txt}": [
+      "*.{ts,json,js}": [
         "yarn prettier --write",
         "git add"
       ]
