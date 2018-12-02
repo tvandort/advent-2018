@@ -4,5 +4,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['**/src/**/*.ts'],
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
-  testPathIgnorePatterns: ['/node_modules/', '/dist/']
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  setupTestFrameworkScriptFile: '<rootDir>/test/setup-test-framework.ts',
+  moduleDirectories: ['node_modules', '<rootDir>/src/util']
 };

@@ -1,9 +1,12 @@
-import * as fs from 'fs';
-import { promisify } from 'util';
-
-const readFile = promisify(fs.readFile);
+import { readFile } from 'fs-async';
 
 const INITIAL_FREQUENCY: number = 0;
+const emptyLines = (line: string) => Boolean(line);
+const toInt = (line: string) => parseInt(line, 10);
+const nextFrequency = (analyzer: FrequencyAnalyzer, value: number) => {
+  analyzer.Next(value);
+  return analyzer;
+};
 
 interface IFrequencyAnalyzer {
   readonly CurrentFrequency: number;
@@ -48,9 +51,11 @@ export class FrequencyAnalyzer implements IFrequencyAnalyzer {
 
 export const repeatedFrequency = async (file: string) => {
   const data = await readFile(file, 'utf8');
-  const lines = data.split('\n');
-  const withoutempty = lines.filter(line => Boolean(line));
-  const values = withoutempty.map(line => parseInt(line, 10));
+  const values = data
+    .split('\n')
+    .filter(emptyLines)
+    .map(toInt);
+
   const analyzer = new FrequencyAnalyzer();
   let index = 0;
   while (analyzer.HasRepeatedFrequency() === false) {
@@ -62,10 +67,9 @@ export const repeatedFrequency = async (file: string) => {
 
 export const sumFrequencies = async (file: string) => {
   const data = await readFile(file, 'utf8');
-  const lines = data.split('\n');
-  const withoutEmpty = lines.filter(line => Boolean(line));
-  const values = withoutEmpty.map(line => parseInt(line, 10));
-  const analyzer = new FrequencyAnalyzer();
-  values.forEach(value => analyzer.Next(value));
-  return analyzer.CurrentFrequency;
+  return data
+    .split('\n')
+    .filter(emptyLines)
+    .map(toInt)
+    .reduce(nextFrequency, new FrequencyAnalyzer()).CurrentFrequency;
 };

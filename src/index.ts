@@ -1,5 +1,6 @@
 import 'es6-promise/auto';
 import { join } from 'path';
+import 'tsconfig-paths/register';
 import { repeatedFrequency, sumFrequencies } from './1/frequency';
 
 (async () => {
