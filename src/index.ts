@@ -2,6 +2,7 @@ import 'es6-promise/auto';
 import { join } from 'path';
 import 'tsconfig-paths/register';
 import { repeatedFrequency, sumFrequencies } from './1/frequency';
+import { checksumFromFile } from './2/checksum';
 
 (async () => {
   const file = join(__dirname, './1/input.txt');
@@ -12,4 +13,9 @@ import { repeatedFrequency, sumFrequencies } from './1/frequency';
   const firstRepeatedFrequency = await repeatedFrequency(file);
   // tslint:disable-next-line:no-console
   console.log('First repeated frequency: ', firstRepeatedFrequency);
+
+  const file2 = join(__dirname, './2/input.txt');
+  const inputChecksum = await checksumFromFile(file2);
+  // tslint:disable-next-line:no-console
+  console.log('Input checksum: ', inputChecksum);
 })();
