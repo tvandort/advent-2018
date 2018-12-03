@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { checksum, checksumFromFile, countCharacters } from '../checksum';
+import { checksum, checksumFromFile } from '../checksum';
 
 const testDataset = [
   ['abcdef', []],
@@ -14,10 +14,6 @@ const testDataset = [
 const ids = testDataset.map(data => data[0] as string);
 
 describe('checksum', () => {
-  test.each(testDataset)('id %p counts for %p', (id, expectedCounts) => {
-    expect(countCharacters(id)).toEqual(expectedCounts);
-  });
-
   test('checksum is 12', () => {
     expect(checksum(ids)).toBe(12);
   });

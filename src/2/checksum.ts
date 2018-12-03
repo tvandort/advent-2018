@@ -10,25 +10,33 @@ export const checksum = (input: string[]) => {
   return Array.from(
     initialArray
       .concat(...input.map(countCharacters))
-      .reduce(countEachInstanceOfNumber, new Map<number, number>())
+      .reduce(countOfNumbers, new Map<number, number>())
       .values()
   ).reduce((accumulator, current) => accumulator * current, 1);
 };
 
-export const countCharacters = (input: string) => {
+const countCharacters = (input: string) => {
   const characters = input.split('');
   const characterCounts = characters.reduce(
-    countEachCharacterInString,
+    numberOfEachCharacter,
     new Map<string, number>()
   );
   const countCounts = Array.from(characterCounts.values()).reduce(
-    uniqueSetOfNumbers,
+    (counts: Set<number>, value: number) => {
+      if (value > 1) {
+        counts.add(value);
+      }
+      return counts;
+    },
     new Set<number>()
   );
   return Array.from(countCounts).sort();
 };
 
-function countEachCharacterInString<T>(counts: Map<T, number>, character: T) {
+const numberOfEachCharacter = (
+  counts: Map<string, number>,
+  character: string
+) => {
   if (counts.has(character)) {
     const oldCount = counts.get(character) as number;
     counts.set(character, oldCount + 1);
@@ -36,12 +44,9 @@ function countEachCharacterInString<T>(counts: Map<T, number>, character: T) {
     counts.set(character, 1);
   }
   return counts;
-}
+};
 
-const countEachInstanceOfNumber = (
-  countMap: Map<number, number>,
-  value: number
-) => {
+const countOfNumbers = (countMap: Map<number, number>, value: number) => {
   if (countMap.has(value)) {
     const count = countMap.get(value) as number;
     countMap.set(value, count + 1);
@@ -49,11 +54,4 @@ const countEachInstanceOfNumber = (
     countMap.set(value, 1);
   }
   return countMap;
-};
-
-const uniqueSetOfNumbers = (counts: Set<number>, value: number) => {
-  if (value > 1) {
-    counts.add(value);
-  }
-  return counts;
 };
