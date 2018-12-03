@@ -1,4 +1,5 @@
-import { checksum, countCharacters } from '../checksum';
+import { join } from 'path';
+import { checksum, checksumFromFile, countCharacters } from '../checksum';
 
 const testDataset = [
   ['abcdef', []],
@@ -10,13 +11,18 @@ const testDataset = [
   ['ababab', [3]]
 ];
 
+const ids = testDataset.map(data => data[0] as string);
+
 describe('checksum', () => {
   test.each(testDataset)('id %p counts for %p', (id, expectedCounts) => {
     expect(countCharacters(id)).toEqual(expectedCounts);
   });
 
   test('checksum is 12', () => {
-    const asd = testDataset.map(data => data[0] as string);
-    expect(checksum(asd)).toBe(12);
+    expect(checksum(ids)).toBe(12);
+  });
+
+  test('checksumFromFile', async () => {
+    expect(await checksumFromFile(join(__dirname, 'id-file.txt'))).toBe(12);
   });
 });

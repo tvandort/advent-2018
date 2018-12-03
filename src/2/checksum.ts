@@ -1,4 +1,4 @@
-import { readFile } from 'fs-async';
+import { readCleanLines } from 'fs-util';
 
 export const countCharacters = (input: string) => {
   const characters = input.split('');
@@ -45,7 +45,6 @@ export const checksum = (input: string[]) => {
 };
 
 export const checksumFromFile = async (file: string) => {
-  const data = await readFile(file, 'utf8');
-  const values = data.split('\n').filter(line => Boolean(line));
-  return checksum(values);
+  const data = await readCleanLines(file);
+  return checksum(data);
 };

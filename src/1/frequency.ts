@@ -1,7 +1,6 @@
-import { readFile } from 'fs-async';
+import { readCleanLines } from 'fs-util';
 
 const INITIAL_FREQUENCY: number = 0;
-const emptyLines = (line: string) => Boolean(line);
 const toInt = (line: string) => parseInt(line, 10);
 const nextFrequency = (analyzer: FrequencyAnalyzer, value: number) => {
   analyzer.Next(value);
@@ -50,11 +49,8 @@ export class FrequencyAnalyzer implements IFrequencyAnalyzer {
 }
 
 export const repeatedFrequency = async (file: string) => {
-  const data = await readFile(file, 'utf8');
-  const values = data
-    .split('\n')
-    .filter(emptyLines)
-    .map(toInt);
+  const data = await readCleanLines(file);
+  const values = data.map(toInt);
 
   const analyzer = new FrequencyAnalyzer();
   let index = 0;
@@ -66,10 +62,7 @@ export const repeatedFrequency = async (file: string) => {
 };
 
 export const sumFrequencies = async (file: string) => {
-  const data = await readFile(file, 'utf8');
-  return data
-    .split('\n')
-    .filter(emptyLines)
-    .map(toInt)
-    .reduce(nextFrequency, new FrequencyAnalyzer()).CurrentFrequency;
+  const data = await readCleanLines(file);
+  return data.map(toInt).reduce(nextFrequency, new FrequencyAnalyzer())
+    .CurrentFrequency;
 };
