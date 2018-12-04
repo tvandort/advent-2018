@@ -1,47 +1,15 @@
 import { readCleanLines } from 'fs-util';
+import { FabricClaim } from './FabricClaim';
+import { OverlapMap } from './OverlapMap';
 
-interface IOffset {
-  top: number;
-  left: number;
-}
+export const countOverlapsFromFile = async (file: string) =>
+  countOverlaps(await getClaimsFromFile(file));
 
-interface IDimensions {
-  width: number;
-  height: number;
-}
+export const findFabricThatDoesNotOverlapFromFile = async (file: string) =>
+  findFabricThatDoesNotOverlap(await getClaimsFromFile(file));
 
-interface IPoint {
-  x: number;
-  y: number;
-}
-
-interface IClaim {
-  readonly id: string;
-}
-
-export class FabricClaim implements IClaim {
-  public id: string;
-  public offset: IOffset;
-  public dimensions: IDimensions;
-
-  constructor(id: string, offset: IOffset, dimensions: IDimensions) {
-    this.id = id;
-    this.offset = offset;
-    this.dimensions = dimensions;
-  }
-
-  public points(): IPoint[] {
-    const right = this.offset.left + this.dimensions.width;
-    const bottom = this.offset.top + this.dimensions.height;
-    const calculatedPoints: IPoint[] = [];
-    for (let x = this.offset.left; x < right; x++) {
-      for (let y = this.offset.top; y < bottom; y++) {
-        calculatedPoints.push({ x, y });
-      }
-    }
-    return calculatedPoints;
-  }
-}
+const getClaimsFromFile = async (file: string) =>
+  (await readCleanLines(file)).map(fabricClaimFromLine);
 
 export const fabricClaimFromLine = (line: string) => {
   const [rawId, rawPointDimension] = line.split('@');
@@ -59,38 +27,14 @@ export const fabricClaimFromLine = (line: string) => {
 };
 
 export const countOverlaps = (claims: FabricClaim[]) => {
-  const overlapCount = Array.from(
-    claims
-      .reduce(toPointsArray, [])
-      .reduce(toMapOfXValues, new Map<number, Map<number, number>>())
-      .values()
-  )
-    .reduce(toCounts, [])
-    .filter(countsGreaterThan1).length;
+  const overlapCount = new OverlapMap(claims).Count();
 
   return overlapCount;
 };
 
-export const countOverlapsFromFile = async (file: string) =>
-  countOverlaps((await readCleanLines(file)).map(fabricClaimFromLine));
-
-const toPointsArray = (points: IPoint[], claim: FabricClaim) =>
-  points.concat(claim.points());
-
-const toMapOfXValues = (
-  pointMap: Map<number, Map<number, number>>,
-  point: IPoint
-) => {
-  const countMap: Map<number, number> =
-    pointMap.get(point.x) || new Map<number, number>();
-
-  countMap.set(point.y, (countMap.get(point.y) || 0) + 1);
-
-  pointMap.set(point.x, countMap);
-  return pointMap;
+export const findFabricThatDoesNotOverlap = (claims: FabricClaim[]) => {
+  const overlapMap = new OverlapMap(claims);
+  return claims
+    .filter(claim => !overlapMap.HasOverlapWith(claim))
+    .map(claim => claim.id);
 };
-
-const toCounts = (counts: number[], pointMap: Map<number, number>) =>
-  counts.concat(Array.from(pointMap.values()));
-
-const countsGreaterThan1 = (count: number) => count > 1;

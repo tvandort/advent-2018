@@ -5,7 +5,10 @@ import 'tsconfig-paths/register';
 import { repeatedFrequency, sumFrequencies } from './1/frequency';
 import { checksumFromFile } from './2/checksum';
 import { findSharedLettersOfOffByOneIdsFromFile } from './2/off-by-one';
-import { countOverlapsFromFile } from './3/fabric';
+import {
+  countOverlapsFromFile,
+  findFabricThatDoesNotOverlapFromFile
+} from './3/fabric';
 
 const getFile = (file: string) => join(__dirname, file);
 
@@ -29,4 +32,9 @@ const getFile = (file: string) => join(__dirname, file);
   const file3 = getFile('./3/claims.txt');
   const overlapsCount = await countOverlapsFromFile(file3);
   console.log('Fabric overlaps: ', overlapsCount);
+
+  const fabricsThatDoNoOverlap = await findFabricThatDoesNotOverlapFromFile(
+    file3
+  );
+  console.log('Fabric ids with no overlaps', fabricsThatDoNoOverlap);
 })();
