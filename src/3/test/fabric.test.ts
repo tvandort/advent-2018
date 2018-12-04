@@ -1,4 +1,4 @@
-import { FabricClaim, fabricClaimFromLine } from '../fabric';
+import { countOverlaps, FabricClaim, fabricClaimFromLine } from '../fabric';
 
 describe(fabricClaimFromLine, () => {
   it('can convert line to fabric claim', () => {
@@ -44,5 +44,23 @@ describe(fabricClaimFromLine, () => {
       { width: 2, height: 2 }
     );
     expect(fabricClaim.points()).toContainEqual(point);
+  });
+
+  test('that two sets of fabric can overlap', () => {
+    const first = new FabricClaim(
+      'irrevant',
+      { top: 0, left: 0 },
+      { width: 2, height: 2 }
+    );
+    const second = new FabricClaim(
+      'irrevant',
+      { top: 1, left: 1 },
+      { width: 2, height: 2 }
+    );
+    const claims = [first, second];
+
+    const overlaps = countOverlaps(claims);
+
+    expect(overlaps).toBe(1);
   });
 });

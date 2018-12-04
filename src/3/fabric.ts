@@ -1,3 +1,5 @@
+import { readCleanLines } from 'fs-util';
+
 interface IOffset {
   top: number;
   left: number;
@@ -55,3 +57,40 @@ export const fabricClaimFromLine = (line: string) => {
     .map(n => parseInt(n, 10));
   return new FabricClaim(id, { left, top }, { width, height });
 };
+
+export const countOverlaps = (claims: FabricClaim[]) => {
+  const overlapCount = Array.from(
+    claims
+      .reduce(toPointsArray, [])
+      .reduce(toMapOfXValues, new Map<number, Map<number, number>>())
+      .values()
+  )
+    .reduce(toCounts, [])
+    .filter(countsGreaterThan1).length;
+
+  return overlapCount;
+};
+
+export const countOverlapsFromFile = async (file: string) =>
+  countOverlaps((await readCleanLines(file)).map(fabricClaimFromLine));
+
+const toPointsArray = (points: IPoint[], claim: FabricClaim) =>
+  points.concat(claim.points());
+
+const toMapOfXValues = (
+  pointMap: Map<number, Map<number, number>>,
+  point: IPoint
+) => {
+  const countMap: Map<number, number> =
+    pointMap.get(point.x) || new Map<number, number>();
+
+  countMap.set(point.y, (countMap.get(point.y) || 0) + 1);
+
+  pointMap.set(point.x, countMap);
+  return pointMap;
+};
+
+const toCounts = (counts: number[], pointMap: Map<number, number>) =>
+  counts.concat(Array.from(pointMap.values()));
+
+const countsGreaterThan1 = (count: number) => count > 1;
