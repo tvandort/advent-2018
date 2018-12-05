@@ -10,7 +10,7 @@ afterAll(() => {
 });
 
 describe(runner, () => {
-  test.each([['1'], ['2']])('can process day %p', (day: string) => {
+  test.each([['1'], ['2'], ['3']])('can process day %p', (day: string) => {
     const mockProcessArgs = ['node', __filename, '--day', day];
 
     runner(mockProcessArgs);
