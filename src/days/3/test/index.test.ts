@@ -20,16 +20,16 @@ afterAll(() => {
 });
 
 describe('index', () => {
-  it('calls with file', () => {
+  it('calls with file', async () => {
     countOverlapsFabricSpy.mockResolvedValue(10);
-    findFabricThatDoesNotOverlapFromFileSpy.mockResolvedValue(20);
+    findFabricThatDoesNotOverlapFromFileSpy.mockResolvedValue([]);
 
     dayThree();
 
-    expect(countOverlapsFabricSpy).toBeCalledWith(
+    await expect(countOverlapsFabricSpy).toBeCalledWith(
       expect.stringContaining('claims.txt')
     );
-    expect(findFabricThatDoesNotOverlapFromFileSpy).toBeCalledWith(
+    await expect(findFabricThatDoesNotOverlapFromFileSpy).toBeCalledWith(
       expect.stringContaining('claims.txt')
     );
   });

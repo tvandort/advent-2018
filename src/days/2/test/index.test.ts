@@ -21,16 +21,16 @@ afterAll(() => {
 });
 
 describe('index', () => {
-  it('calls with file', () => {
+  it('calls with file', async () => {
     checksumFromFileSpy.mockResolvedValue(10);
-    findSharedlettersOfOffByOneIdsFromFile.mockResolvedValue(20);
+    findSharedlettersOfOffByOneIdsFromFile.mockResolvedValue('abcdef');
 
     dayTwo();
 
-    expect(checksumFromFileSpy).toBeCalledWith(
+    await expect(checksumFromFileSpy).toBeCalledWith(
       expect.stringContaining('input.txt')
     );
-    expect(findSharedlettersOfOffByOneIdsFromFile).toBeCalledWith(
+    await expect(findSharedlettersOfOffByOneIdsFromFile).toBeCalledWith(
       expect.stringContaining('input.txt')
     );
   });

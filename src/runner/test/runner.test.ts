@@ -2,7 +2,9 @@ import days from '../../days';
 import { runner } from '../runner';
 
 beforeAll(() => {
-  jest.spyOn(days, '1');
+  jest.spyOn(days, '1').mockImplementation(() => undefined);
+  jest.spyOn(days, '2').mockImplementation(() => undefined);
+  jest.spyOn(days, '3').mockImplementation(() => undefined);
 });
 
 afterAll(() => {
@@ -15,6 +17,6 @@ describe(runner, () => {
 
     runner(mockProcessArgs);
 
-    expect(days['1']).toBeCalled();
+    expect((days as any)[day]).toBeCalled();
   });
 });
