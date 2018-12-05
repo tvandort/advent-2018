@@ -1,3 +1,4 @@
-import runner from './runner';
 import './setup';
+import runner from './runner';
+
 runner(process.argv);

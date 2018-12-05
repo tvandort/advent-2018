@@ -2,6 +2,10 @@
   "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "jsRules": {},
-  "rules": { "object-literal-sort-keys": false, "max-classes-per-file": false },
+  "rules": {
+    "object-literal-sort-keys": false,
+    "max-classes-per-file": false,
+    "ordered-imports": false
+  },
   "rulesDirectory": []
 }
