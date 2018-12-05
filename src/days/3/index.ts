@@ -5,7 +5,7 @@ import {
 } from './fabric';
 
 export default () => {
-  const file = join(__dirname, './input.txt');
+  const file = join(__dirname, './claims.txt');
 
   countOverlapsFromFile(file).then(overlaps => {
     // tslint:disable-next-line:no-console

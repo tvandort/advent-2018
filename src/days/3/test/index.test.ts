@@ -27,10 +27,10 @@ describe('index', () => {
     dayThree();
 
     expect(countOverlapsFabricSpy).toBeCalledWith(
-      expect.stringContaining('input.txt')
+      expect.stringContaining('claims.txt')
     );
     expect(findFabricThatDoesNotOverlapFromFileSpy).toBeCalledWith(
-      expect.stringContaining('input.txt')
+      expect.stringContaining('claims.txt')
     );
   });
 });

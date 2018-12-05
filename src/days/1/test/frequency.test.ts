@@ -1,9 +1,6 @@
 import { join } from 'path';
-import {
-  FrequencyAnalyzer,
-  repeatedFrequency,
-  sumFrequencies
-} from '../frequency';
+import { repeatedFrequency, sumFrequencies } from '../frequency';
+import { FrequencyAnalyzer } from '../FrequencyAnalyzer';
 
 describe('frequency', () => {
   describe(sumFrequencies, () => {
