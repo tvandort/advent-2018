@@ -1,7 +1,8 @@
-import { readScheduleLine } from '../schedule';
+import { lineToSchedule, guardMultipliedByMinuteFromFile } from '../schedule';
 import { Timeline } from '../Timeline';
 import { TimelineEvent } from '../TimelineEvent';
 import moment from 'moment';
+import { join } from 'path';
 
 const timelineEvent1 = new TimelineEvent(
   moment({
@@ -35,17 +36,19 @@ const timelineEvent3 = new TimelineEvent(
   'Guard #11 begins shift'
 );
 
-describe(readScheduleLine, () => {
+describe(lineToSchedule, () => {
   it('splits date and event', () => {
     const readString = '[1518-11-01 00:00] Guard #10 begins shift';
-    expect(readScheduleLine(readString)).toEqual(timelineEvent1);
+    expect(lineToSchedule(readString)).toEqual(timelineEvent1);
   });
 
   it('splits date and event', () => {
     const readString = '[1518-11-01 00:05] falls asleep';
-    expect(readScheduleLine(readString)).toEqual(timelineEvent2);
+    expect(lineToSchedule(readString)).toEqual(timelineEvent2);
   });
+});
 
+describe('timeline', () => {
   it('can construct a timeline', () => {
     const timeline = new Timeline([
       timelineEvent2,
@@ -58,5 +61,13 @@ describe(readScheduleLine, () => {
       timelineEvent2,
       timelineEvent3
     ]);
+  });
+});
+
+describe('schedule', () => {
+  it('gets guard time multiplied', async () => {
+    expect(
+      guardMultipliedByMinuteFromFile(join(__dirname, './example.txt'))
+    ).toEqual(240);
   });
 });

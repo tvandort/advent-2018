@@ -2,10 +2,10 @@ import moment from 'moment';
 
 export class TimelineEvent {
   public OccurredOn: Date;
-  public Event: string;
+  public EventText: string;
 
   constructor(occurredOn: moment.Moment, event: string) {
     this.OccurredOn = occurredOn.toDate();
-    this.Event = event;
+    this.EventText = event;
   }
 }
