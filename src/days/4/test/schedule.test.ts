@@ -1,4 +1,6 @@
-import { readScheduleLine, TimelineEvent, Timeline } from '../schedule';
+import { readScheduleLine } from '../schedule';
+import { Timeline } from '../Timeline';
+import { TimelineEvent } from '../TimelineEvent';
 import moment from 'moment';
 
 const timelineEvent1 = new TimelineEvent(

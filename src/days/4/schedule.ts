@@ -1,23 +1,5 @@
 import moment from 'moment';
-
-export class TimelineEvent {
-  public OccurredOn: Date;
-  public Event: string;
-
-  constructor(occurredOn: moment.Moment, event: string) {
-    this.OccurredOn = occurredOn.toDate();
-    this.Event = event;
-  }
-}
-
-export class Timeline {
-  public Events: any;
-  constructor(events: TimelineEvent[]) {
-    this.Events = events.sort((a, b) =>
-      moment(a.OccurredOn).diff(moment(b.OccurredOn))
-    );
-  }
-}
+import { TimelineEvent } from './TimelineEvent';
 
 export const readScheduleLine = (scheduleLine: string) => {
   const dateTimeString = scheduleLine.slice(0, 18).trim();
