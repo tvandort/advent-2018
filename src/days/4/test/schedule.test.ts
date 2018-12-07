@@ -1,4 +1,7 @@
-import { lineToSchedule, guardMultipliedByMinuteFromFile } from '../schedule';
+import {
+  lineToSchedule,
+  mostAsleepByGuardAndMinuteFromFile
+} from '../schedule';
 import { Timeline } from '../Timeline';
 import { TimelineEvent } from '../TimelineEvent';
 import moment from 'moment';
@@ -67,7 +70,9 @@ describe('timeline', () => {
 describe('schedule', () => {
   it('gets guard time multiplied', async () => {
     expect(
-      await guardMultipliedByMinuteFromFile(join(__dirname, './example.txt'))
+      await mostAsleepByGuardAndMinuteFromFile(join(__dirname, './example.txt'))
     ).toEqual(240);
   });
+
+  it('gets guard most frequency asleep same minute', async () => {});
 });
