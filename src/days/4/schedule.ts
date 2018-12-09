@@ -117,14 +117,23 @@ class Schedule {
       new Map<Minute, Map<Guard, number>>()
     );
 
-    const ordered = Array.from(minutesByGuard.keys()).map(m => {
-      const mbg = minutesByGuard.get(m) as Map<Guard, number>;
-      
-      return {
-        minute: m,x
-        guard:
+    let highestSoFar = { minute: 0, count: 0, guard: 0 };
+    for (const minute of minutesByGuard) {
+      for (const count of minute[1]) {
+        if (count[1] > highestSoFar.count) {
+          highestSoFar = {
+            minute: minute[0],
+            count: count[1],
+            guard: count[0]
+          };
+        }
       }
-    })
+    }
+
+    return {
+      Guard: highestSoFar.guard,
+      Minute: highestSoFar.minute
+    };
   };
 }
 
@@ -182,14 +191,14 @@ export const mostAsleepByGuardAndMinuteFromFile = async (file: string) => {
   return mostAsleep.Guard * mostAsleep.MostSleptMinute;
 };
 
-export const minuteMostAsleepByGuards = async (file: string) => {
+export const minuteMostAsleepByGuardFromFile = async (file: string) => {
   const timeline = new Timeline(
     (await readCleanLines(file)).map(lineToSchedule)
   );
 
   const schedule = new Schedule(timeline);
-  const minuteMostAsleep = schedule.MostAsleepByMinute();
-  return minuteMostAsleep.Guard * minuteMostAsleep.Minute;
+  const mostAsleep = schedule.MostAsleepByMinute();
+  return mostAsleep.Guard * mostAsleep.Minute;
 };
 
 export const lineToSchedule = (scheduleLine: string) => {
