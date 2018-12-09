@@ -1,4 +1,4 @@
-import * as schedule from '../schedule';
+import * as schedule from '../schedule-analysis';
 import dayFour from '../index';
 
 let minuteMostAsleepByGuardFromFile: jest.SpyInstance<

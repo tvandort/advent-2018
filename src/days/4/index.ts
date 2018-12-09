@@ -2,7 +2,7 @@ import { join } from 'path';
 import {
   mostAsleepByGuardAndMinuteFromFile,
   minuteMostAsleepByGuardFromFile
-} from './schedule';
+} from './schedule-analysis';
 
 export default () => {
   const file = join(__dirname, './input.txt');

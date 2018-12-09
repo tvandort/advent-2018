@@ -2,11 +2,12 @@ import {
   lineToSchedule,
   mostAsleepByGuardAndMinuteFromFile,
   minuteMostAsleepByGuardFromFile
-} from '../schedule';
+} from '../schedule-analysis';
 import { Timeline } from '../Timeline';
 import { TimelineEvent } from '../TimelineEvent';
 import moment from 'moment';
 import { join } from 'path';
+import { Schedule } from '../Schedule';
 
 const timelineEvent1 = new TimelineEvent(
   moment({
@@ -68,7 +69,7 @@ describe('timeline', () => {
   });
 });
 
-describe('schedule', () => {
+describe('schedule analysis', () => {
   it('gets guard time multiplied', async () => {
     expect(
       await mostAsleepByGuardAndMinuteFromFile(join(__dirname, './example.txt'))
@@ -79,5 +80,23 @@ describe('schedule', () => {
     expect(
       await minuteMostAsleepByGuardFromFile(join(__dirname, './example.txt'))
     ).toEqual(4455);
+  });
+});
+
+describe('schedule', () => {
+  it('throws an error with unhandled events', () => {
+    const badEvent = 'nothing here';
+    expect(
+      () =>
+        new Schedule(
+          new Timeline([timelineEvent1, new TimelineEvent(moment(), badEvent)])
+        )
+    ).toThrow();
+  });
+
+  it('hits no ordered minute', () => {
+    expect(
+      new Schedule(new Timeline([timelineEvent1])).MostAsleepByGuard()
+    ).not.toBeNull();
   });
 });
