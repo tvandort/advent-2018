@@ -3,7 +3,6 @@ import {
   mostAsleepByGuardAndMinuteFromFile,
   minuteMostAsleepByGuardFromFile
 } from './schedule';
-import { pseudoRandomBytes } from 'crypto';
 
 export default () => {
   const file = join(__dirname, './input.txt');

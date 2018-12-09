@@ -11,6 +11,7 @@ beforeAll(() => {
     fabric,
     'findFabricThatDoesNotOverlapFromFile'
   );
+
   // tslint:disable-next-line:no-empty
   jest.spyOn(console, 'log').mockImplementation(() => {});
 });
