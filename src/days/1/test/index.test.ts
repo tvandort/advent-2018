@@ -15,7 +15,7 @@ afterAll(() => {
 });
 
 describe('index', () => {
-  it.only('calls with file', () => {
+  it('calls with file', () => {
     sumFrequenciesSpy.mockResolvedValue(10);
     repeatedFrequencySpy.mockResolvedValue(20);
 
