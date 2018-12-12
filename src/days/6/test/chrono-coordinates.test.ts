@@ -1,9 +1,7 @@
-import {
-  readPointFromLine,
-  findBoundingPoints,
-  Plane
-} from '../chrono-coordinates';
-import { points } from './data';
+import { readPointFromLine } from '../chrono-coordinates';
+import { findBoundingPoints } from '../find-bounding-points';
+import { Plane } from '../Plane';
+import { points, E } from './data';
 
 describe(readPointFromLine, () => {
   it('converts string to point', () => {
@@ -77,7 +75,24 @@ describe(Plane, () => {
       });
 
       it('returns point with greatest area', () => {
-        expect(plane.PointWithGreatestArea()).toEqual({ X: 3, Y: 3 });
+        expect(plane.PointWithGreatestArea()).toEqual({
+          point: { X: 3, Y: 3 },
+          area: 12
+        });
+      });
+    });
+
+    describe('example case', () => {
+      let plane = Plane.Null;
+      beforeEach(() => {
+        plane = new Plane(points);
+      });
+
+      it('returns point with greatest area', () => {
+        expect(plane.PointWithGreatestArea()).toEqual({
+          point: E,
+          area: 17
+        });
       });
     });
   });

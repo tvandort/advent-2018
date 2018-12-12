@@ -3,5 +3,13 @@ import two from './2';
 import three from './3';
 import four from './4';
 import five from './5';
+import six from './6';
 
-export default { '1': one, '2': two, '3': three, '4': four, '5': five };
+export default {
+  '1': one,
+  '2': two,
+  '3': three,
+  '4': four,
+  '5': five,
+  '6': six
+};
