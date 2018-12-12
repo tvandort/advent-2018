@@ -32,13 +32,13 @@ describe(findBoundingPoints, () => {
 });
 
 describe(Plane, () => {
-  describe('minimal case', () => {
-    let plane = Plane.Null;
-    beforeEach(() => {
-      plane = new Plane([{ X: 0, Y: 0 }, { X: 2, Y: 2 }]);
-    });
+  describe('ClosestTo', () => {
+    describe('minimal case', () => {
+      let plane = Plane.Null;
+      beforeEach(() => {
+        plane = new Plane([{ X: 0, Y: 0 }, { X: 2, Y: 2 }]);
+      });
 
-    describe('ClosestTo', () => {
       it('returns null for outside point', () => {
         expect(plane.ClosestTo({ X: 100, Y: 100 })).toBe(null);
       });
@@ -47,16 +47,38 @@ describe(Plane, () => {
         expect(plane.ClosestTo({ X: 1, Y: 1 })).toBe(null);
       });
     });
+
+    describe('case with point that is close to another point and only that point', () => {
+      let plane = Plane.Null;
+      beforeEach(() => {
+        plane = new Plane([{ X: 0, Y: 0 }, { X: 3, Y: 3 }]);
+      });
+
+      it('is closest to 0,0', () => {
+        expect(plane.ClosestTo({ X: 1, Y: 1 })).toEqual({ X: 0, Y: 0 });
+      });
+
+      it('is closest to 3,3', () => {
+        expect(plane.ClosestTo({ X: 2, Y: 2 })).toEqual({ X: 3, Y: 3 });
+      });
+    });
   });
 
-  describe('case with point that is close to another point and only that point', () => {
-    let plane = Plane.Null;
-    beforeEach(() => {
-      plane = new Plane([{ X: 0, Y: 0 }, { X: 3, Y: 3 }]);
-    });
+  describe('PointWithLargestArea', () => {
+    describe('minimal case', () => {
+      let plane = Plane.Null;
+      beforeEach(() => {
+        plane = new Plane([
+          { X: 0, Y: 0 },
+          { X: 6, Y: 6 },
+          { X: 1, Y: 1 },
+          { X: 3, Y: 3 }
+        ]);
+      });
 
-    it('is closes to 0,0', () => {
-      expect(plane.ClosestTo({ X: 1, Y: 1 })).toEqual({ X: 0, Y: 0 });
+      it('returns point with greatest area', () => {
+        expect(plane.PointWithGreatestArea()).toEqual({ X: 3, Y: 3 });
+      });
     });
   });
 });

@@ -49,10 +49,14 @@ export class Plane {
 
   private Bounds: IBounds;
   private Points: IPoint[];
+  private AllPointsInside: IPoint[];
+  private PointsInside: IPoint[];
 
   constructor(points: IPoint[]) {
     this.Bounds = findBoundingPoints(points);
     this.Points = points;
+    this.AllPointsInside = this.Bounds.PointsInside();
+    this.PointsInside = points.filter(point => this.Bounds.Contains(point));
   }
 
   public ClosestTo = (point: IPoint) => {
@@ -68,12 +72,47 @@ export class Plane {
       distanceMap.set(distance, pointsAtDistance);
     }
 
-    for (const [distance, points] of distanceMap) {
-      if (points.length === 1) {
-        return points[0];
+    const smallestDistance = Math.min(...Array.from(distanceMap.keys()));
+    const pointsAtShortestDistance = distanceMap.get(
+      smallestDistance
+    ) as IPoint[];
+    if (pointsAtShortestDistance.length > 1) {
+      return null;
+    } else {
+      return pointsAtShortestDistance[0];
+    }
+  };
+
+  public PointWithGreatestArea(): IPoint {
+    const pointsInside = this.Bounds.PointsInside();
+    const givenPointMap = this.Points.filter(point =>
+      this.Bounds.Contains(point)
+    ).reduce(
+      (previosGivenPointsMap: Map<IPoint, number>, nextPoint: IPoint) => {
+        previosGivenPointsMap.set(nextPoint, 0);
+        return previosGivenPointsMap;
+      },
+      new Map<IPoint, number>()
+    );
+
+    for (const point of pointsInside) {
+      const closestTo = this.ClosestTo(point);
+      // console.log(point, ' is closest to ', closestTo);
+      if (closestTo) {
+        const count = givenPointMap.get(closestTo);
+        givenPointMap.set(closestTo, count! + 1);
       }
     }
 
-    return null;
-  };
+    let greatestPointAndArea = { point: { X: 0, Y: 0 }, area: 0 };
+    for (const [point, area] of givenPointMap) {
+      if (area > greatestPointAndArea.area) {
+        greatestPointAndArea = { point, area };
+      }
+    }
+
+    // console.log('counts', givenPointMap);
+
+    return greatestPointAndArea.point;
+  }
 }
