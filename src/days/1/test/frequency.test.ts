@@ -2,14 +2,16 @@ import { join } from 'path';
 import { repeatedFrequency, sumFrequencies } from '../frequency';
 import { FrequencyAnalyzer } from '../FrequencyAnalyzer';
 
+const TEST_CASES: Array<[string, number]> = [
+  ['zero.txt', 0],
+  ['one.txt', 1],
+  ['negative-one.txt', -1],
+  ['multiple-values.txt', 8]
+];
+
 describe('frequency', () => {
   describe(sumFrequencies, () => {
-    test.each([
-      ['zero.txt', 0],
-      ['one.txt', 1],
-      ['negative-one.txt', -1],
-      ['multiple-values.txt', 8]
-    ])('read %p sum was %p', async (file, expectedSum) => {
+    test.each(TEST_CASES)('read %p sum was %p', async (file, expectedSum) => {
       expect(await sumFrequencies(join(__dirname, file))).toBe(expectedSum);
     });
 
