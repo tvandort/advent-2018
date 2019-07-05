@@ -1,10 +1,12 @@
 import * as fabric from '../fabric';
 import dayThree from '../index';
 
-let countOverlapsFabricSpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let countOverlapsFabricSpy: jest.SpyInstance<Promise<number>, [string]>;
 let findFabricThatDoesNotOverlapFromFileSpy: jest.SpyInstance<
-  (file: string) => Promise<string[]>
+  Promise<string[]>,
+  [string]
 >;
+
 beforeAll(() => {
   countOverlapsFabricSpy = jest.spyOn(fabric, 'countOverlapsFromFile');
   findFabricThatDoesNotOverlapFromFileSpy = jest.spyOn(
