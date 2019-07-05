@@ -2,11 +2,14 @@ import * as schedule from '../schedule-analysis';
 import dayFour from '../index';
 
 let minuteMostAsleepByGuardFromFile: jest.SpyInstance<
-  (file: string) => Promise<number>
+  Promise<number>,
+  [string]
 >;
 let mostAsleepByGuardAndMinuteFromFile: jest.SpyInstance<
-  (file: string) => Promise<number>
+  Promise<number>,
+  [string]
 >;
+
 beforeAll(() => {
   minuteMostAsleepByGuardFromFile = jest.spyOn(
     schedule,
