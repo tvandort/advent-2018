@@ -2,10 +2,12 @@ import * as checksum from '../checksum';
 import dayTwo from '../index';
 import * as offByOne from '../off-by-one';
 
-let checksumFromFileSpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let checksumFromFileSpy: jest.SpyInstance<Promise<number>, [string]>;
 let findSharedlettersOfOffByOneIdsFromFile: jest.SpyInstance<
-  (file: string) => Promise<string>
+  Promise<string>,
+  [string]
 >;
+
 beforeAll(() => {
   checksumFromFileSpy = jest.spyOn(checksum, 'checksumFromFile');
   findSharedlettersOfOffByOneIdsFromFile = jest.spyOn(
