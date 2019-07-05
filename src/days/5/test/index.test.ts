@@ -3,11 +3,14 @@ import dayFive from '../index';
 import { IReactionResults } from '../IReactionResults';
 
 let reactPolymerFromFileSpy: jest.SpyInstance<
-  (file: string) => Promise<IReactionResults>
+  Promise<IReactionResults>,
+  [string]
 >;
 let reactPolymerAndRemoveConfoundingUnitFromFileSpy: jest.SpyInstance<
-  (file: string) => Promise<IReactionResults>
+  Promise<IReactionResults>,
+  [string]
 >;
+
 beforeAll(() => {
   reactPolymerFromFileSpy = jest.spyOn(polymer, 'reactPolymerFromFile');
   reactPolymerAndRemoveConfoundingUnitFromFileSpy = jest.spyOn(
