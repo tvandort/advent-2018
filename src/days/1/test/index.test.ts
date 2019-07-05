@@ -1,8 +1,9 @@
 import * as frequency from '../frequency';
 import dayOne from '../index';
 
-let sumFrequenciesSpy: jest.SpyInstance<(file: string) => Promise<number>>;
-let repeatedFrequencySpy: jest.SpyInstance<(file: string) => Promise<number>>;
+let sumFrequenciesSpy: jest.SpyInstance<Promise<number>, [string]>;
+let repeatedFrequencySpy: jest.SpyInstance<Promise<number>, [string]>;
+
 beforeAll(() => {
   sumFrequenciesSpy = jest.spyOn(frequency, 'sumFrequencies');
   repeatedFrequencySpy = jest.spyOn(frequency, 'repeatedFrequency');
