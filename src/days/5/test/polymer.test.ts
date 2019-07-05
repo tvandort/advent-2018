@@ -6,17 +6,18 @@ import {
 } from '../polymer';
 import { join } from 'path';
 
+const TEST_CASES: Array<[string, string, string[]]> = [
+  ['ad', 'ad', ['a', 'd']],
+  ['aa', 'aa', ['a']],
+  ['aA', '', ['a']],
+  ['', '', []],
+  ['aAa', 'a', ['a']],
+  ['aaA', 'a', ['a']],
+  ['aaAA', '', ['a']],
+  ['dabAcCaCBAcCcaDA', 'dabCBAcaDA', ['a', 'b', 'c', 'd']]
+];
 describe(reactPolymer, () => {
-  it.each([
-    ['ad', 'ad', ['a', 'd']],
-    ['aa', 'aa', ['a']],
-    ['aA', '', ['a']],
-    ['', '', []],
-    ['aAa', 'a', ['a']],
-    ['aaA', 'a', ['a']],
-    ['aaAA', '', ['a']],
-    ['dabAcCaCBAcCcaDA', 'dabCBAcaDA', ['a', 'b', 'c', 'd']]
-  ])(
+  it.each(TEST_CASES)(
     'correctly reacts %p => %p',
     (polymer, expectedPolymer, expectedContainedUnits) => {
       const result = reactPolymer(polymer);
